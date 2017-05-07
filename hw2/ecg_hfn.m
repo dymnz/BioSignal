@@ -52,7 +52,7 @@ for i = 1 : N
     xlabel('Frequency (Hz)')
     ylabel('Magnitude (dB)')
     ax = gca;
-    ax.YLim = [-100 20];
+    ax.YLim = [-170 20];
     ax.XLim = [0 fs];    
     
     % Plot phase response
@@ -63,8 +63,8 @@ for i = 1 : N
     title(sprintf('Order: %d, fc = %dHz', order, fc))
     xlabel('Frequency (Hz)')
     ylabel('Degree (degree)')
-     ax = gca;
-     ax.YLim = [-500 0];
-     ax.XLim = [0 70];           
+    ax = gca;
+    ax.YLim = [-500 0];
+    ax.XLim = [0 70];           
     
 end
