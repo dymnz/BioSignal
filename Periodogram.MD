@@ -56,7 +56,7 @@ Discrete **finite** summation [2]: Periodogram, **"estimate of the PSD"**
 
 2. > 他是要透過acf的結果去預測嗎？
 
-Finite的結果對於是Infinite的預測
+Finite的結果是對於Infinite的預測
 
 3. > 況且acf的結果是檢測自己的period跟peridogram有什麼直接的關係？
 
