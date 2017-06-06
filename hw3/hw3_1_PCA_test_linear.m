@@ -30,9 +30,11 @@ A = [4 0.02;
 figure;
 scatter(p_height, p_weight);
 
+% PCA
+[transformed, V, D] = PCA([p_height;p_weight]);
 
-%% PCA
-
+% Plot transformed
+scatter(transformed(1,:), transformed(2,:));
 
 
 

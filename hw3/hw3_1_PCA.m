@@ -10,9 +10,7 @@ p1 = unifrnd(p1_limit(1), p1_limit(2), 1, N);
 p2 = unifrnd(p2_limit(1), p2_limit(2), 1, N);
 
 % Plot original signal
-% figure;
-% scatter(p1, p2);
-% hold on;
+scatter(p1, p2);
 
 % Mixing
 source = [p1;p2];
@@ -23,11 +21,8 @@ mixed = A * source;
 % Plot mixed
 scatter(mixed(1,:), mixed(2,:));
 
-%% PCA
+% PCA
+[transformed, V, D] = PCA(mixed);
 
-% Centering
-centered_mixed = mixed - (mean(mixed')')*ones(1, size(mixed, 2));
-
-% Plot centered mixed
-scatter(centered_mixed(1,:), centered_mixed(2,:));
-
+% Plot transformed
+scatter(transformed(1,:), transformed(2,:));
