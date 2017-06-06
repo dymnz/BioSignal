@@ -15,6 +15,3 @@ Cov = centered_mixed*centered_mixed';
 
 % Transform
 transformed = V * centered_mixed;
-
-% Plot transformed 
-scatter(transformed(1,:), transformed(2,:));

@@ -3,7 +3,7 @@ clear; close all;
 % Signal specification
 p1_limit = [10 40];
 p2_limit = [100 180];
-N = 1000;
+N = 10000;
 
 % Generation
 p1 = unifrnd(p1_limit(1), p1_limit(2), 1, N);
