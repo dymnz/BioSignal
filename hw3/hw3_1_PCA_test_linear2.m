@@ -2,7 +2,7 @@ clear; close all;
 
 %Signal specification
 age_limit = [10 30];
-calorie_limit = [1500 2500];
+calorie_limit = [15 25];
 N = 500;
 gaussian_var = 0; 
 
@@ -10,10 +10,10 @@ gaussian_var = 0;
 p_age = unifrnd(age_limit(1), age_limit(2), 1, N);
 p_calorie = unifrnd(calorie_limit(1), calorie_limit(2), 1, N);
 
-height_mean = 4 * p_age + 0.01 * p_calorie;
+height_mean = 4 * p_age + 1 * p_calorie;
 p_height = normrnd(height_mean, gaussian_var, size(p_age));
 
-weight_mean = 1 * p_age + 0.02 * p_calorie;
+weight_mean = 1 * p_age + 2 * p_calorie;
 p_weight = normrnd(weight_mean, gaussian_var, size(p_age));
 
 % The equivalent mixing matrix

@@ -1,8 +1,8 @@
 clear; close all;
 
 % Signal specification
-p1_limit = [10 80];
-p2_limit = [1210 1280];
+p1_limit = [1000 8000];
+p2_limit = [30 40];
 N = 1000;
 
 % Generation
@@ -22,13 +22,10 @@ mixed = A * source;
 scatter(mixed(1,:), mixed(2,:));
 
 % PCA
-[processed_source, W, E] = PCA(mixed, false);
+[processed_source, W, E] = PCA2(mixed);
 
 % Plot transformed
 scatter(processed_source(1,:), processed_source(2,:));
 hold on;
 plotv(W,'-');
 
-
-[processed_source, W, E] = PCA(mixed, true);
-scatter(processed_source(1,:), processed_source(2,:));

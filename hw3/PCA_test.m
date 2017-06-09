@@ -23,7 +23,7 @@ mixed = A * source;
 centered_mixed = mixed - (mean(mixed')')*ones(1, size(mixed, 2));
 
 % Variance normalization
-centered_mixed = centered_mixed./(sqrt(var(centered_mixed'))');
+centered_mixed = centered_mixed./((sqrt(var(centered_mixed'))')*ones(1, size(source, 2)));
 
 % Covariance
 Cov = centered_mixed*centered_mixed';
