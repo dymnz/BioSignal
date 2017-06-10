@@ -1,8 +1,9 @@
 clear; close all;
+addpath('./FastICA_21');
 
 % Signal specification
 p1_limit = [10 80];
-p2_limit = [1210 1280];
+p2_limit = [700 1000];
 N = 1000;
 
 % Generation
@@ -14,20 +15,18 @@ scatter(p1, p2);
 
 % Mixing
 source = [p1;p2];
-A = [0.8 0.6;
-     0.6 0.8];
+A = [0.8 0.3;
+     0.6 0.3];
 mixed = A * source;
 
+% ICA
+[icasig] = fastica(mixed);
+
+close all;
+
+figure;
 % Plot mixed
-scatter(mixed(1,:), mixed(2,:));
-
-% PCA
-[processed_source, W, E] = PCA(mixed, false);
-
-% Transform
-processed_source = W * processed_source;
-
-% Plot transformed
-scatter(processed_source(1,:), processed_source(2,:));
+scatter(icasig(1,:), icasig(2,:));
 hold on;
+
 

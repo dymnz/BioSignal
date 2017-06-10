@@ -2,7 +2,7 @@ clear; close all;
 figure; hold on;
 
 % Graph setting
-Limit = [-10 10];
+Limit = [0 25];
 grid on;
 xlim(Limit); ylim(Limit);
 set(gca, 'xtick', Limit(1):1:Limit(2))
@@ -19,16 +19,13 @@ ANorm_set = [[4 10];[24 16];[16 18];[18 20]; ...
             [14 20];[20 22];[18 16];[20 20];[18 18];...
             [20 18]];
         
-% Draw lines       
-fplot(@(x)x, [-10 10]);     % x1 = x2
-fplot(@(x)-x+5, [-10 10]);  % x1 = -x2+5
-fplot(1, [-10 10]);         % x2 = 1
-
-plot(6, 5, '-o');
+% Draw points        
+scatter(Norm_set(:, 1), Norm_set(:, 2), 45, ...
+        'MarkerEdgeColor', 'blue', ...
+        'MarkerFaceColor', 'blue');
+scatter(ANorm_set(:, 1), ANorm_set(:, 2), 45, ...
+        'MarkerEdgeColor', 'red', ...
+        'MarkerFaceColor', 'red');
         
-
-
-
-
 
 
