@@ -17,21 +17,11 @@ mixed = A' * source;
 
 % Plot original signal
 figure;
-scatter(p1, p2);
-
-xlim([min(min(source)) max(max(source))]);
-ylim([min(min(source)) max(max(source))]);
-daspect([1 1 1])
+equal_plot(source);
 
 % Plot mixed
 figure;
-scatter(mixed(1, :), mixed(2, :));
-
-xlim([min(min(mixed)) max(max(mixed))]);
-ylim([min(min(mixed)) max(max(mixed))]);
-daspect([1 1 1])
-
-
+equal_plot(mixed);
 
 % PCA
 Coeff = pca(mixed', 'Algorithm','eig');
@@ -39,7 +29,7 @@ Coeff = pca(mixed', 'Algorithm','eig');
 % Plot transformed
 figure;
 processed_source = Coeff' * mixed; % (mixed' * Coeff')'
-scatter(processed_source(1,:), processed_source(2,:));
+equal_plot(processed_source);
 hold on;
 
 % Print stuff
@@ -55,7 +45,7 @@ fprintf('transformed var.: %.5f %.5f\n', ...
 
 % Plot transformed
 processed_source = W' * processed_source;
-scatter(processed_source(1,:), processed_source(2,:));
+equal_plot(processed_source);
 
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...
@@ -65,6 +55,4 @@ fprintf('mixed var.: %.2f %.2f\n', ...
 fprintf('transformed var.: %.5f %.5f\n', ...
         var(processed_source(1, :)), var(processed_source(2, :)));    
 
-xlim([min(min(processed_source)) max(max(processed_source))]);
-ylim([min(min(processed_source)) max(max(processed_source))]);
-daspect([1 1 1])
+

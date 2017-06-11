@@ -9,27 +9,29 @@ N = 1000;
 p1 = unifrnd(p1_limit(1), p1_limit(2), 1, N);
 p2 = unifrnd(p2_limit(1), p2_limit(2), 1, N);
 
-% Plot original signal
-scatter(p1, p2);
-
 % Mixing
 source = [p1;p2];
 A = [0.8 0.6;
      0.6 0.8];
 mixed = A' * source;
 
+% Plot original signal
+figure;
+equal_plot(source);
+
 % Plot mixed
-scatter(mixed(1,:), mixed(2,:));
+figure;
+equal_plot(mixed);
 
 % PCA
 [processed_source, W, E] = PCA(mixed, false);
 
 % Transform
-processed_source = W * processed_source;
+processed_source = W' * processed_source;
 
 % Plot transformed
-scatter(processed_source(1,:), processed_source(2,:));
-hold on;
+figure;
+equal_plot(processed_source);
 
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...

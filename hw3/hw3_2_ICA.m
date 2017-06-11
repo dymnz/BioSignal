@@ -2,8 +2,8 @@ clear; close all;
 addpath('./FastICA_21');
 
 % Signal specification
-p1_limit = [-80 80];
-p2_limit = [-10 10];
+p1_limit = [50 60];
+p2_limit = [-3 3];
 N = 1000;
 
 % Generation
@@ -17,32 +17,26 @@ A = [0.8 0.3;
 mixed = A' * source;
 
 % ICA
-[icasig] = fastica(mixed);
-close all;
+[icasig, icaA, icaW] = fastica(mixed, ...
+            'verbose', 'off', 'displayMode', 'off');
 
 figure;
 % Plot original signal
 scatter(p1, p2);
 
-figure;
 % Plot mixed
-scatter(mixed(1,:), mixed(2,:));
-
-% Histogram source/mixed
-figure; 
-histogram(source(1, :), 30); 
-hold on;
-histogram(source(2, :), 30);
-figure; 
-histogram(mixed(1, :), 30); 
-hold on;
-histogram(mixed(2, :), 30);
-
-
 figure;
-% Plot ICA
-scatter(icasig(1,:), icasig(2,:));
+% Centering
+mixed = mixed - (mean(mixed')')*ones(1, size(mixed, 2));
+scatter(mixed(1,:), mixed(2,:));
+hold on;
+plotv(icaA, '-');
 
+% Plot ICA
+figure;
+% Centering
+icasig = icasig - (mean(icasig')')*ones(1, size(icasig, 2));
+scatter(icasig(1,:), icasig(2,:));
 
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...
@@ -52,5 +46,9 @@ fprintf('mixed var.: %.2f %.2f\n', ...
 fprintf('ICA var.: %.5f %.5f\n', ...
         var(icasig(1, :)), var(icasig(2, :)));    
 
+figure;
+hold on;
+plotv(icaA./det(icaA), '-');
+plotv(A'./det(A'), '-');
 
 

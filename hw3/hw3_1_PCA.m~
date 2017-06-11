@@ -1,8 +1,8 @@
 clear; close all;
 
 % Signal specification
-p1_limit = [3 8];
-p2_limit = [-3 3];
+p1_limit = [50 70];
+p2_limit = [-10 10];
 N = 1000;
 
 % Generation
@@ -15,26 +15,24 @@ A = [0.8 0.3;
      0.6 0.4];
 mixed = A' * source;
 
-% Plot source 
-figure; 
-equal_plot(source);
-title('Source signal', 'FontSize', 20);
-
 % PCA
 [processed_source, W, E] = PCA(mixed, false);
 
+% Plot mixed 
+figure;
+equal_plot(mixed, 'Mixed signal');
+
 % Plot PC
 figure; 
-equal_plot(processed_source);
+equal_plot(processed_source, 'Principle component');
 hold on;
-plotv(W.*max(max(processed_source)),'-');
-title('Principle components', 'FontSize', 20); 
+plotv(max(max(processed_source)).*W,'-');
 
 % Plot transformed
 figure; 
 processed_source = W' * processed_source;
-equal_plot(processed_source);
-title('Transformed signal', 'FontSize', 20); 
+equal_plot(processed_source, 'Tra');
+
 
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...
