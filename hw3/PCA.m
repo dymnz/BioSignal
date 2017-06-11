@@ -4,17 +4,23 @@ if nargin < 2
 toNormalize = true;
 end
 
+N = size(source, 2);
+
 % Centering
-processed_source = source - (mean(source')')*ones(1, size(source, 2));
+processed_source = source - (mean(source')')*ones(1, N);
 
 % Variance normalization
 if toNormalize
-    variance = (sqrt(var(processed_source'))') * ones(1, size(source, 2));
+    variance = (sqrt(var(processed_source'))') * ones(1, N);
     processed_source = processed_source ./ variance;
 end
 
+% Normalized variance
+fprintf('normalized var.: %.2f %.2f\n', ...
+        var(processed_source(1, :)), var(processed_source(2, :)));    
+
 % Correlation
-Cov = processed_source * processed_source';
+Cov = (processed_source * processed_source') ./ N;
 
 % Eigen
 [V, D] = eig(Cov);

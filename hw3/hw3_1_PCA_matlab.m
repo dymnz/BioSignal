@@ -16,23 +16,17 @@ A = [0.8 0.3;
 mixed = A * source;
 
 % PCA
-[processed_source, W, E] = PCA(mixed, false);
+Coeff = pca(mixed', 'Algorithm','eig');
 
-% Plot mixed 
+% Plot original signal
 figure;
-scatter(mixed(1,:), mixed(2,:));
-hold on;
-
-% Plot PC
-figure;
-scatter(processed_source(1,:), processed_source(2,:));
-hold on;
-plotv(W,'-');
+scatter(p1, p2);
 
 % Plot transformed
 figure;
-processed_source = W' * processed_source;
+processed_source = Coeff * mixed; % (mixed' * Coeff')'
 scatter(processed_source(1,:), processed_source(2,:));
+
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...
         var(source(1, :)), var(source(2, :)));
