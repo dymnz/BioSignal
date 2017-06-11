@@ -13,7 +13,7 @@ p2 = unifrnd(p2_limit(1), p2_limit(2), 1, N);
 source = [p1;p2];
 A = [0.8 0.3;
      0.6 0.4];
-mixed = A * source;
+mixed = A' * source;
 
 % PCA
 Coeff = pca(mixed', 'Algorithm','eig');
@@ -24,7 +24,7 @@ scatter(p1, p2);
 
 % Plot transformed
 figure;
-processed_source = Coeff * mixed; % (mixed' * Coeff')'
+processed_source = Coeff' * mixed; % (mixed' * Coeff')'
 scatter(processed_source(1,:), processed_source(2,:));
 
 % Print stuff

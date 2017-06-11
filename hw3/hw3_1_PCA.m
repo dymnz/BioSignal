@@ -13,7 +13,7 @@ p2 = unifrnd(p2_limit(1), p2_limit(2), 1, N);
 source = [p1;p2];
 A = [0.8 0.3;
      0.6 0.4];
-mixed = A * source;
+mixed = A' * source;
 
 % PCA
 [processed_source, W, E] = PCA(mixed, false);
@@ -27,12 +27,13 @@ hold on;
 figure;
 scatter(processed_source(1,:), processed_source(2,:));
 hold on;
-plotv(W,'-');
+plotv(max(max(processed_source)).*W,'-');
 
 % Plot transformed
 figure;
 processed_source = W' * processed_source;
 scatter(processed_source(1,:), processed_source(2,:));
+
 % Print stuff
 fprintf('source var.: %.2f %.2f\n', ...
         var(source(1, :)), var(source(2, :)));

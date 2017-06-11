@@ -16,7 +16,7 @@ scatter(p1, p2);
 source = [p1;p2];
 A = [0.8 0.6;
      0.6 0.8];
-mixed = A * source;
+mixed = A' * source;
 
 % Plot mixed
 scatter(mixed(1,:), mixed(2,:));
@@ -31,3 +31,10 @@ processed_source = W * processed_source;
 scatter(processed_source(1,:), processed_source(2,:));
 hold on;
 
+% Print stuff
+fprintf('source var.: %.2f %.2f\n', ...
+        var(source(1, :)), var(source(2, :)));
+fprintf('mixed var.: %.2f %.2f\n', ...
+        var(mixed(1, :)), var(mixed(2, :)));
+fprintf('transformed var.: %.5f %.5f\n', ...
+        var(processed_source(1, :)), var(processed_source(2, :)));    
