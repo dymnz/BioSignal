@@ -1,8 +1,8 @@
 clear; close all;
 
 % Signal specification
-p1_limit = [3 8];
-p2_limit = [-3 3];
+p1_limit = [1500 2500];
+p2_limit = [10 30];
 N = 1000;
 
 % Generation
@@ -11,8 +11,8 @@ p2 = unifrnd(p2_limit(1), p2_limit(2), 1, N);
 
 % Mixing
 source = [p1;p2];
-A = [0.8 0.3;
-     0.6 0.4];
+A = [0.04 0.03;
+     2 1];
 mixed = A' * source;
 
 % Plot source 
@@ -20,8 +20,13 @@ figure;
 equal_plot(source);
 title('Source signal', 'FontSize', 20);
 
+% Plot mixed 
+figure; 
+equal_plot(mixed);
+title('Mixed signal', 'FontSize', 20);
+
 % PCA
-[processed_source, W, E] = PCA(mixed, false);
+[processed_source, W, E] = PCA(mixed, true);
 
 % Plot PC
 figure; 

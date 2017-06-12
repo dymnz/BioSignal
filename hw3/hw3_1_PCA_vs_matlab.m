@@ -44,7 +44,7 @@ fprintf('transformed var.: %.5f %.5f\n', ...
 [processed_source, W, E] = PCA(mixed, false);
 
 % Plot transformed
-processed_source = W' * processed_source;
+processed_source = W' * mixed;
 equal_plot(processed_source);
 
 % Print stuff
