@@ -44,8 +44,8 @@ subplot_helper(d_time, n_d_f_ecg, [4 1 1], ...
 
 % First derivative
 d1_ecg = abs([n_d_f_ecg; 0; 0;] - [0; 0; n_d_f_ecg]);   % Derivative
-d1_time = [1:length(n_d_f_ecg)+2]/fs_d; % Extend the time vector
-subplot_helper(d1_time, d1_ecg, [4 1 2], ...
+d1_ecg = d1_ecg(3:end);
+subplot_helper(d_time, d1_ecg, [4 1 2], ...
                 {'Time in seconds' 'Normalized'})
             
             
