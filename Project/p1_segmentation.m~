@@ -1,0 +1,16 @@
+% QRS detection %
+clear; close all;
+
+% Parameter
+sig = load('pec41.dat');
+limit = [4500:16000];
+
+% Separating pcg, ecg, and carotid signals
+pcg = sig(limit,1);
+ecg = sig(limit,2);
+carotid = sig(limit,3);
+fs = 1000;
+time = [1:length(pcg)]/fs;
+
+% Plot orignal ecg
+plot(time, ecg);

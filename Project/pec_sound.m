@@ -6,7 +6,7 @@ clear all
 
 % loading ascii file into an array
 % give signal file number here as required
-sig = load('pec1.dat');
+sig = load('./data/pec41.dat');
 
 % Separating pcg, ecg, and carotid signals
 pcg = sig(:,1);
