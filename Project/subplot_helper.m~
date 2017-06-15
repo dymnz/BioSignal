@@ -3,15 +3,9 @@ subplot(D(1), D(2), D(3));
 plot(X, Y);
 xlabel(Label(1));
 ylabel(Label(2));
+%ylim([min(Y) max(Y)]);
 
-% y-axis scaling
 h = findobj(gca,'Type','line');
 ydata = get(h, 'Ydata');
-if iscell(ydata)
-    cat_ydata = ydata{1, :};
-    for i = 2: size(ydata, 1)
-        cat_ydata = [cat_ydata ydata{i, :}];
-    end
-    ydata = cat_ydata;
-end
+if iscell(ty)
 ylim([min(ydata) max(ydata)]);
