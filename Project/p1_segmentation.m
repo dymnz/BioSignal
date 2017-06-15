@@ -4,7 +4,7 @@ clear; close all;
 %% Settings
 
 % Parameter
-sig = load('./data/pec41.dat');
+sig = load('./data/pec1.dat');
 fs = 1000;
 limit = 8000:12000;   % Using only mid-section signal
 
@@ -112,7 +112,7 @@ subplot_helper(d_time, t_pcg, [4 1 2], ...
                 {'Time in seconds' 'PCG no algmnt'});     
             
 % PCG overlay - w/ alignment
-mv_pt = -50;    % Move PCG left by 50pts = 1/fs*50 = 0.05s
+mv_pt = -40;    % Move PCG left by Npts = 1/fs*N sec
 pcg = sig(limit - mv_pt, 1);
 subplot_helper(time, pcg, [4 1 3], ...
                 {'Time in seconds' 'PCG'});
