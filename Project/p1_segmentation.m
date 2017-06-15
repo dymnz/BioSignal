@@ -4,7 +4,7 @@ clear; close all;
 %% Settings
 % Parameter
 fileIndex = 1;      % Choose a file (1...4)
-range = [6.5 12.5]; % Interval of signals to test (sec)
+range = [4 15.5]; % Interval of signals to test (sec)
 win_t = 330;        % Systolic(S1) window (m-sec)
 
 %% Get started
@@ -119,11 +119,10 @@ t_pcg = (mv_t1_ecg) * (max(pcg)-min(pcg)) + min(pcg) ;
 subplot_helper(d_time, t_pcg, [4 1 2], ...
                 {'Time (s)' 'PCG (AU)' 'PCG QRS overlay'});     
 
-% Window extension calculation
+% Window extension calculation, brilliant
 win_pts = round(win_t / (1000/fs_d));
 d_mv_t1_ecg = [mv_t1_ecg; 0] - [0; mv_t1_ecg];
 d_mv_t1_ecg(d_mv_t1_ecg~=1) = 0;
-
 extension = conv(d_mv_t1_ecg, ones(win_pts, 1));
             
 % ECG overlay - window extension
@@ -134,6 +133,7 @@ t_ecg = extension(1:length(mv_t1_ecg));
 t_ecg = (t_ecg) * (max(ecg)-min(ecg)) + min(ecg) ;
 subplot_helper(d_time, t_ecg, [4 1 3], ...
                 {'Time (s)' 'ECG (AU)' sprintf('ECG windowing %d ms', win_t)});                                    
+            
 % PCG overlay - window extension
 subplot_helper(time, pcg, [4 1 4], ...
                 {'Time (s)' 'PCG (AU)' 'PCG windowing'});
