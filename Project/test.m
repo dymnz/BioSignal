@@ -1,10 +1,8 @@
 figure;
-plot(w_ecg)
-hold on
-plot (mv_w_ecg)
+plot(mv_t1_ecg)
+hold on;
+d_mv_t1_ecg = [mv_t1_ecg; 0] - [0; mv_t1_ecg];
+d_mv_t1_ecg(d_mv_t1_ecg~=1) = 0;
 
-
-[v i] = max(w_ecg);
-i
-[v i] = max(mv_w_ecg(1:200));
-i
+a = ones(70, 1);
+plot(conv(d_mv_t1_ecg, a), 'o')

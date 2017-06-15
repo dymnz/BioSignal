@@ -4,9 +4,10 @@ clear; close all;
 %% Settings
 
 % Parameter
-sig = load('./data/pec41.dat');
+fNames = {'pec1.dat' 'pec1.dat'};
+sig = load(['./data/' fName]);
 fs = 1000;
-limit = 4500:16000;   % Using only mid-section signal
+limit = 8000:12000;   % Using only mid-section signal
 
 % Separating pcg, ecg, and carotid signals
 pcg = sig(limit, 1);
@@ -38,7 +39,7 @@ subplot_helper(d_time, d_f_ecg, [4 1 3], ...
 n_d_f_ecg = d_f_ecg / max(d_f_ecg);
 subplot_helper(d_time, n_d_f_ecg, [4 1 4], ...
                 {'Time in seconds' 'Normalized'})
-
+            
 %% QRS processing
 
 % Orignal
@@ -65,6 +66,7 @@ subplot_helper(d_time, d2_ecg, [4 1 3], ...
 w_ecg = 1.3 * d1_ecg + 1.1 * d2_ecg;
 subplot_helper(d_time, w_ecg, [4 1 4], ...
                 {'Time in seconds' 'Weighted drvtve'})   
+           
             
 %% QRS detection
 
@@ -91,10 +93,43 @@ mv_t1_ecg = ones(size(w_ecg));
 mv_t1_ecg(mv_w_ecg<Threshold) = 0;
 subplot_helper(d_time, mv_t1_ecg, [4 1 4], ...
                 {'Time in seconds' '8pt MA threshold'});  
-
+         
+            
 %% Overlay
 
+% ECG overlay
 figure;
 subplot_helper(time, ecg, [4 1 1], ...
-                {'Time in seconds' 'Original'});
+                {'Time in seconds' 'ECG'});
+hold on;
+t_ecg = (mv_t1_ecg) * (max(ecg)-min(ecg)) + min(ecg) ;
+subplot_helper(d_time, t_ecg, [4 1 1], ...
+                {'Time in seconds' 'ECG'});  
+           
+% PCG overlay - w/o alignment
+subplot_helper(time, pcg, [4 1 2], ...
+                {'Time in seconds' 'PCG'});
+hold on;
+t_pcg = (mv_t1_ecg) * (max(pcg)-min(pcg)) + min(pcg) ;
+subplot_helper(d_time, t_pcg, [4 1 2], ...
+                {'Time in seconds' 'PCG no algmnt'});     
             
+% PCG overlay - w/ alignment and window extension
+pcg = sig(limit, 1);
+subplot_helper(time, pcg, [4 1 3], ...
+                {'Time in seconds' 'PCG'});
+hold on;
+win_t = 300; % 350ms
+win_pts = round(win_t / (1000/fs_d));
+% fs_d = 200Hz T_d = 0.005s, 350ms = 70pts
+d_mv_t1_ecg = [0; mv_t1_ecg] - [mv_t1_ecg; 0];
+d_mv_t1_ecg(d_mv_t1_ecg~=-1) = 0;
+d_mv_t1_ecg(d_mv_t1_ecg==-1) = 1;
+
+extension = conv(d_mv_t1_ecg, ones(win_pts, 1));
+t_pcg = extension(1:length(mv_t1_ecg));
+t_pcg = (t_pcg) * (max(pcg)-min(pcg)) + min(pcg) ;
+subplot_helper(d_time, t_pcg, [4 1 3], ...
+                {'Time in seconds' 'PCG algmnt'});                 
+            
+             
