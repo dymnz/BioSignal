@@ -6,7 +6,7 @@ clear; close all;
 % Parameter
 sig = load('./data/pec41.dat');
 fs = 1000;
-limit = 4500:6000;   % Using only mid-section signal
+limit = 8000:12000;   % Using only mid-section signal
 
 % Separating pcg, ecg, and carotid signals
 pcg = sig(limit, 1);
@@ -94,10 +94,29 @@ subplot_helper(d_time, mv_t1_ecg, [4 1 4], ...
 
 %% Overlay
 
+% ECG overlay
 figure;
 subplot_helper(time, ecg, [4 1 1], ...
-                {'Time in seconds' 'Original'});
+                {'Time in seconds' 'ECG'});
 hold on;
-mv_t1_ecg = (mv_t1_ecg) * (max(ecg)-min(ecg)) + min(ecg) ;
-subplot_helper(d_time, mv_t1_ecg, [4 1 1], ...
-                {'Time in seconds' 'Original'});
+t_ecg = (mv_t1_ecg) * (max(ecg)-min(ecg)) + min(ecg) ;
+subplot_helper(d_time, t_ecg, [4 1 1], ...
+                {'Time in seconds' 'ECG'});  
+           
+% PCG overlay - w/o alignment
+subplot_helper(time, pcg, [4 1 2], ...
+                {'Time in seconds' 'PCG'});
+hold on;
+t_pcg = (mv_t1_ecg) * (max(pcg)-min(pcg)) + min(pcg) ;
+subplot_helper(d_time, t_pcg, [4 1 2], ...
+                {'Time in seconds' 'PCG no algmnt'});     
+            
+% PCG overlay - w/ alignment
+mv_pt = -50;    % Move PCG left by 50pts = 1/fs*50 = 0.05s
+pcg = sig(limit - mv_pt, 1);
+subplot_helper(time, pcg, [4 1 3], ...
+                {'Time in seconds' 'PCG'});
+hold on;
+t_pcg = (mv_t1_ecg) * (max(pcg)-min(pcg)) + min(pcg) ;
+subplot_helper(d_time, t_pcg, [4 1 3], ...
+                {'Time in seconds' 'PCG algmnt'});                 
