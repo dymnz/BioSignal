@@ -4,16 +4,16 @@ clear; close all;
 
 %% Settings
 % Parameter
-fileIndex = 1;      % Choose a file (1...4)
+fileIndex = 4;      % Choose a file (1...5)
 range = [4 15.5]; % Interval of signals to test (sec)
 win_t = 330;        % Systolic(S1) window (m-sec)
 
 %% Get started
 % Stuff to specify
-fNames = {'pec1.dat' 'pec52.dat' 'pec33.dat' 'pec42.dat'};
+fNames = {'pec1.dat' 'pec52.dat' 'pec33.dat' 'pec42.dat' 'pec41.dat'};
 sig = load(['./data/' fNames{fileIndex}]);
 fs = 1000;
-limit = (range(1)*fs):(range(2)*fs);   % Using only mid-section signal
+limit = (range(1)*fs):min(size(sig,1),(range(2)*fs));   % Using only mid-section signal
 
 % Separating pcg, ecg, and carotid signals
 pcg = sig(limit, 1);
