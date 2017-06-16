@@ -5,7 +5,7 @@ clear; close all;
 %% Settings
 % Parameter
 fileIndex = 1;      % Choose a file (1...5)
-range = [4 8.5];	% Interval of signals to test (sec)
+range = [4 10.5];	% Interval of signals to test (sec)
 win_t = 330;        % Systolic(S1) window (m-sec)
 
 %% Get started
