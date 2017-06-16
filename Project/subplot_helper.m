@@ -4,14 +4,20 @@ plot(X, Y);
 xlabel(Label(1));
 ylabel(Label(2));
 title(Label(3));
-% y-axis scaling
+
 h = findobj(gca,'Type','line');
 ydata = get(h, 'Ydata');
+
 if iscell(ydata)
-    cat_ydata = ydata{1, :};
+    ymax = max(ydata{1, :});
+    ymin = min(ydata{1, :});
     for i = 2: size(ydata, 1)
-        cat_ydata = [cat_ydata ydata{i, :}];
+        ymax = max(ymax, max(ydata{i, :}));
+        ymin = min(ymin, min(ydata{i, :}));
     end
-    ydata = cat_ydata;
+else
+    ymax = max(ydata);
+    ymin = min(ydata);
 end
-ylim([min(ydata) max(ydata)]);
+
+ylim([ymin ymax]);
