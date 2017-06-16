@@ -1,8 +1,8 @@
 figure;
-plot(mv_t1_ecg)
-hold on;
-d_mv_t1_ecg = [mv_t1_ecg; 0] - [0; mv_t1_ecg];
-d_mv_t1_ecg(d_mv_t1_ecg~=1) = 0;
+block_size = 4;
 
-a = ones(70, 1);
-plot(conv(d_mv_t1_ecg, a), 'o')
+for i = 1 : length(segment_indices)
+    subplot_helper(time(1:win_pts), pcg_segments(i, :), ...
+        [block_size ceil(length(segment_indices)/block_size) i], ...
+        {'Time (s)' 'PCG (AU)' sprintf('PCG segments %d', i) });
+end

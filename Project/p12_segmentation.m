@@ -122,18 +122,18 @@ subplot_helper(d_time, t_pcg, [4 1 2], ...
 
 % Window extension calculation, brilliant
 win_pts = round(win_t / (1000/fs));
-d_mv_t1_ecg = [mv_t1_ecg; 0] - [0; mv_t1_ecg];  % Find the starting location of each segment
-d_mv_t1_ecg(d_mv_t1_ecg~=1) = 0;                % Impulse train of segment starts
-d_mv_t1_ecg = upsample(d_mv_t1_ecg, fs/fs_d);   % Upsample to f = fs
-d_mv_t1_ecg = d_mv_t1_ecg(1:length(time));      % Remove the extended part
-extension = conv(d_mv_t1_ecg, ones(win_pts, 1));% Convolution -> Copy & Paste
-            
+segment_starts = [mv_t1_ecg; 0] - [0; mv_t1_ecg];  % Find the starting location of each segment
+segment_starts(segment_starts~=1) = 0;                % Impulse train of segment starts
+segment_starts = upsample(segment_starts, fs/fs_d);   % Upsample to f = fs
+segment_starts = segment_starts(1:length(time));      % Remove the extended part from upsampling
+segment_windows = conv(segment_starts, ones(win_pts, 1));% Convolution -> Copy & Paste
+segment_windows = segment_windows(1:length(segment_starts));   % Remove the extended part from convolution          
+
 % ECG overlay - window extension
 subplot_helper(time, ecg, [4 1 3], ...
                 {'Time (s)' 'ECG (AU)' 'ECG windowing'});
 hold on;
-t_ecg = extension(1:length(d_mv_t1_ecg));
-t_ecg = (t_ecg) * (max(ecg)-min(ecg)) + min(ecg) ;
+t_ecg = (segment_windows) * (max(ecg)-min(ecg)) + min(ecg) ;
 subplot_helper(time, t_ecg, [4 1 3], ...
                 {'Time (s)' 'ECG (AU)' sprintf('ECG windowing %d ms', win_t)});                                    
             
@@ -141,8 +141,7 @@ subplot_helper(time, t_ecg, [4 1 3], ...
 subplot_helper(time, pcg, [4 1 4], ...
                 {'Time (s)' 'PCG (AU)' 'PCG windowing'});
 hold on;
-t_pcg = extension(1:length(d_mv_t1_ecg));
-t_pcg = (t_pcg) * (max(pcg)-min(pcg)) + min(pcg) ;
+t_pcg = (segment_windows) * (max(pcg)-min(pcg)) + min(pcg) ;
 subplot_helper(time, t_pcg, [4 1 4], ...
                 {'Time (s)' 'PCG (AU)' sprintf('PCG windowing %d ms', win_t)});                 
                      
