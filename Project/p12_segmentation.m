@@ -1,4 +1,4 @@
-% The entry point of the term project, includes preprocessing and ECG/PCG
+% The entry point of the term project, includes preprocessing and ECG/PCG 
 % segmentation
 clear; close all;
 
