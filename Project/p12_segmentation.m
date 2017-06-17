@@ -5,8 +5,9 @@ clear; close all;
 %% Settings
 % Parameter
 fileIndex = 5;      % Choose a file (1...5)
-range = [4 14.5];	% Interval of signals to test (sec)
-win_t = 330;        % Systolic(S1) window (m-sec)
+range = [3 15.5];	% Interval of signals to test (sec)
+win_ts = [330 380 290 200 320]; % Systolic(S1) window (m-sec)
+win_t = win_ts(fileIndex); 
 
 %% Get started
 % Stuff to specify
@@ -122,12 +123,12 @@ subplot_helper(d_time, t_pcg, [4 1 2], ...
 
 % Window extension calculation, brilliant
 win_pts = round(win_t / (1000/fs));
-segment_starts = [mv_t1_ecg; 0] - [0; mv_t1_ecg];  % Find the starting location of each segment
-segment_starts(segment_starts~=1) = 0;                % Impulse train of segment starts
-segment_starts = upsample(segment_starts, fs/fs_d);   % Upsample to f = fs
-segment_starts = segment_starts(1:length(time));      % Remove the extended part from upsampling
-segment_windows = conv(segment_starts, ones(win_pts, 1));% Convolution -> Copy & Paste
-segment_windows = segment_windows(1:length(segment_starts));   % Remove the extended part from convolution          
+segment_starts = [mv_t1_ecg; 0] - [0; mv_t1_ecg];   % Find the starting location of each segment
+segment_starts(segment_starts~=1) = 0;              % Impulse train of segment starts
+segment_starts = upsample(segment_starts, fs/fs_d); % Upsample to f = fs
+segment_starts = segment_starts(1:length(time));    % Remove the extended part from upsampling
+segment_windows = conv(segment_starts, ones(win_pts, 1));       % Convolution -> Copy & Paste
+segment_windows = segment_windows(1:length(segment_starts));    % Remove the extended part from convolution          
 
 % ECG overlay - window extension
 subplot_helper(time, ecg, [4 1 3], ...

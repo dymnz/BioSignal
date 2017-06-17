@@ -1,6 +1,6 @@
 % Find the average of PCG PSD and compare it with individual PCG PSD
 
-%close all;
+close all;
 
 %% Useful stuff
 % win_pts: Points of each segment
@@ -54,12 +54,24 @@ for i = 1 : seg_num
     subplot_helper(fshift(range), powershift(range), ...
         [block_size ceil(seg_num/block_size) i], ...
         {'Frequency (Hz)' 'Power (AU)' sprintf('PCG PSD %d', i) });    
-    ylim([-15 5]);
+    ylim([-20 10]);
 end
 
-% Comparing to average PSD
+% Plot mean PSD
 meanPSD = mean(pcg_psds);
 meanPSD_power = 10*log10(abs(fftshift(meanPSD)));
+figure;
+subplot_helper(fshift(range), meanPSD_power(range), ...
+            [2 1 1], {'Time (s)' 'Power (dB)' ...
+            'mean PSD'});    
+xlim([0 500]); 
+ylim([max(meanPSD_power(range))-40 max(meanPSD_power(range))]);
+subplot_helper(time(1 : win_pts), mean(pcg_segments), ...
+            [2 1 2], {'Time (s)' 'Power (dB)' ...
+            'mean PCG'});    
+
+
+% Comparing to average PSD
 for i = 1 : 4       
     X = fftshift(pcg_psds(i, :));
     powershift = 10*log10(abs(X));
@@ -72,14 +84,19 @@ for i = 1 : 4
     subplot_helper(fshift(range), meanPSD_power(range), ...
                 [2 1 1], {'Time (s)' 'Power (dB)' ...
                 sprintf('PCG %d PSD', i)});
-    xlim([0 fs/2]);ylim([-20 10]);
-    subplot_helper(time(1:win_pts), pcg_segments(i, :), ...
+    legend(sprintf('PCG %d PSD', i), 'Mean PSD'); 
+    xlim([0 500]); 
+    ylim([max(max(powershift(range), meanPSD_power(range)))-40 ...
+        max(max(powershift(range), meanPSD_power(range)))]);    
+    start = segment_indices(i);
+    subplot_helper(time(start : start+win_pts-1), pcg_segments(i, :), ...
                 [2 1 2], {'Time (s)' 'Power (dB)' ...
                 sprintf('PCG %d', i)});
     hold on;                
-    subplot_helper(time(1:win_pts), mean(pcg_segments), ...
+    subplot_helper(time(start : start+win_pts-1), mean(pcg_segments), ...
                 [2 1 2], {'Time (s)' 'Power (dB)' ...
-                sprintf('PCG %d', i)});       
+                sprintf('PCG %d', i)});    
+    legend(sprintf('PCG %d', i), 'Mean PCG')
     
 end
 
