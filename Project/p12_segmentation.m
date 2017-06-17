@@ -4,8 +4,8 @@ clear; close all;
 
 %% Settings
 % Parameter
-fileIndex = 1;      % Choose a file (1...5)
-range = [4 10.5];	% Interval of signals to test (sec)
+fileIndex = 5;      % Choose a file (1...5)
+range = [4 14.5];	% Interval of signals to test (sec)
 win_t = 330;        % Systolic(S1) window (m-sec)
 
 %% Get started
@@ -68,7 +68,7 @@ d2_ecg = d2_ecg(5:end);             % Remove the leading zeros
 subplot_helper(d_time, d2_ecg, [4 1 3], ...
                 {'Time (s)' 'Magnitude (AU)' 'ECG 2nd derivative'}) 
             
-% Weighted derivative
+% Weighted derpcg_fftsivative
 w_ecg = 1.3 * d1_ecg + 1.1 * d2_ecg;
 subplot_helper(d_time, w_ecg, [4 1 4], ...
                 {'Time (s)' 'Magnitude (AU)' 'ECG Weighted derivative'})   

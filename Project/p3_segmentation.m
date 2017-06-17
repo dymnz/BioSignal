@@ -1,13 +1,13 @@
 % Find the average of PCG PSD and compare it with individual PCG PSD
 
+%close all;
+
 %% Useful stuff
 % win_pts: Points of each segment
 % segment_starts: Starting point of each segment
 % segment_windows: Windows of segments
 % time: Time axis
 %%
-
-close all;
 
 % Retrieve the segments
 segment_indices = find(segment_starts);
@@ -37,9 +37,11 @@ for i = 1 : seg_num
 end
 
 % Find the PSD for each segment
+pcg_ffts = zeros(seg_num, win_pts);
 pcg_psds = zeros(seg_num, win_pts);
 for i = 1 : seg_num
-    pcg_psds(i, :) = (fft(pcg_segments(i, :))).^2 / win_pts;    
+    pcg_ffts(i, :) = fft(pcg_segments(i, :)) ;
+    pcg_psds(i, :) = (pcg_ffts(i, :)).^2 / win_pts;    
 end
 
 % Plot PCG PSD
@@ -70,13 +72,14 @@ for i = 1 : 4
     subplot_helper(fshift(range), meanPSD_power(range), ...
                 [2 1 1], {'Time (s)' 'Power (dB)' ...
                 sprintf('PCG %d PSD', i)});
-    
+    xlim([0 fs/2]);ylim([-20 10]);
     subplot_helper(time(1:win_pts), pcg_segments(i, :), ...
                 [2 1 2], {'Time (s)' 'Power (dB)' ...
                 sprintf('PCG %d', i)});
     hold on;                
     subplot_helper(time(1:win_pts), mean(pcg_segments), ...
                 [2 1 2], {'Time (s)' 'Power (dB)' ...
-                sprintf('PCG %d', i)});                    
+                sprintf('PCG %d', i)});       
+    
 end
 

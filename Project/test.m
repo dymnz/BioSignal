@@ -1,6 +1,14 @@
+% Periodogram verify
+close all;
+
+[pxx,f] = periodogram(pcg_segments(3, :),[],length(pcg_segments(3, :)),fs);
 figure;
-meanPSD_power = 10*log10(abs(fftshift(mean(pcg_psds))));
-meanPSD = abs(fftshift(mean(pcg_psds)));
-medfreq(meanPSD(range), fshift(range))
+plot(f, 10*log10(pxx))
 hold on;
-plot(fshift(range), 10+meanPSD_power(range))
+X = 10*log10(abs(fftshift(pcg_psds(3, :))));
+plot(fshift(range), X(range))
+
+% May not need 'fftshift'
+X = 10*log10(abs(pcg_psds(3, :)));
+psd = X(1:ceil(length(pcg_psds)/2)+1);
+plot(f, 20+psd)

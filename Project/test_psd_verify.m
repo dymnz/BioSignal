@@ -10,4 +10,6 @@ plot(fshift(range), X(range))
 
 % May not need 'fftshift'
 X = 10*log10(abs(pcg_psds(3, :)));
-plot(f, 20+X(1:ceil(length(pcg_psds)/2)+1))
+psd = X(1:ceil(length(pcg_psds)/2)+1);
+plot(f, 20+psd)
+
